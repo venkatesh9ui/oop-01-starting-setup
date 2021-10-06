@@ -34,7 +34,7 @@ class Component {
     if (cssClasses) {
       rootElement.className = cssClasses;
     }
-    if (attributes && attributes > 0) {
+    if (attributes && attributes.length > 0) {
       for (const attr of attributes) {
         rootElement.setAttribute(attr.name, attr.value);
       }

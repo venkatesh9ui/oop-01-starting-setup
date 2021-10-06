@@ -86,7 +86,7 @@ class ShoppingCart extends Component {
       <button>Order Now!</button>
     `;
     const orderButon = cartEl.querySelector('button');
-    orderButon.addEventListener('click', this.orderProducts.bind(this));
+    orderButon.addEventListener('click', () => this.orderProducts());
     this.totalOutput = cartEl.querySelector('h2');
   }
 }

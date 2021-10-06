@@ -15,14 +15,16 @@ class Product {
 class ElementAttribute {
   constructor(attrName, attrValue) {
     this.name = attrName;
-    this.name = attrValue;
+    this.value = attrValue;
   }
 }
 
 class Component {
-  constructor(renderHookId) {
+  constructor(renderHookId, shouldRender = true) {
     this.hookId = renderHookId;
-    this.render();
+    if (shouldRender) {
+      this.render();
+    }
   }
 
   render() {}
@@ -84,7 +86,7 @@ class ShoppingCart extends Component {
 
 class ProductItem extends Component {
   constructor(product, renderHookId) {
-    super(renderHookId);
+    super(renderHookId, false);
     this.product = product;
   }
 
@@ -111,31 +113,43 @@ class ProductItem extends Component {
 }
 
 class ProductList extends Component {
-  products = [
-    new Product(
-      'A pillow',
-      'https://cb2.scene7.com/is/image/CB2/reflectpillowpatapllwACOC15/$web_pdp_main_carousel_md$/210923104942/pata-18x12-pillow.jpg',
-      'A soft pillow!',
-      19.99
-    ),
-    new Product(
-      'A Carpet',
-      'https://images.rugimg.com/3137884/3137884_image_1010.jpg?width=2000&quality=55&height=2000&fit=bounds',
-      'A carpet which you might like - or not.',
-      89.99
-    ),
-  ];
+  products = [];
 
   constructor(renderHookId) {
     super(renderHookId);
+    this.fetchProducts();
+  }
+
+  fetchProducts() {
+    this.products = [
+      new Product(
+        'A pillow',
+        'https://cb2.scene7.com/is/image/CB2/reflectpillowpatapllwACOC15/$web_pdp_main_carousel_md$/210923104942/pata-18x12-pillow.jpg',
+        'A soft pillow!',
+        19.99
+      ),
+      new Product(
+        'A Carpet',
+        'https://images.rugimg.com/3137884/3137884_image_1010.jpg?width=2000&quality=55&height=2000&fit=bounds',
+        'A carpet which you might like - or not.',
+        89.99
+      ),
+    ];
+    this.renderProducts();
+  }
+
+  renderProducts() {
+    for (const prod of this.products) {
+      new ProductItem(prod, 'prod-list');
+    }
   }
 
   render() {
     this.createRootElement('ul', 'product-list', [
       new ElementAttribute('id', 'prod-list'),
     ]);
-    for (const prod of this.products) {
-      new ProductItem(prod, 'prod-list');
+    if (this.products && this.products.length > 0) {
+      this.renderProducts();
     }
   }
 }

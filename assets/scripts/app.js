@@ -126,10 +126,11 @@ class ProductList extends Component {
 
   constructor(renderHookId) {
     super(renderHookId);
-    this.fetchProducts();
+    // this.render();
+    this.#fetchProducts();
   }
 
-  fetchProducts() {
+  #fetchProducts() {
     this.products = [
       new Product(
         'A pillow',
